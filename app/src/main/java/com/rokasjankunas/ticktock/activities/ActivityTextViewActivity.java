@@ -68,6 +68,8 @@ public class ActivityTextViewActivity extends Activity implements BillingProcess
             } else {
                 notPurchased();
             }
+
+            Toast.makeText(getApplicationContext(),"After changing settings go back to the main screen",Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -89,15 +91,9 @@ public class ActivityTextViewActivity extends Activity implements BillingProcess
 
     private void generatePremiumValues(){
         ActivityOption activityOption = new ActivityOption();
-        activityOption.setName("PREMIUM");
+        activityOption.setName("Sounds");
         activityOption.setActivity(BatteryPercentageActivity.class);
         activityOption.setExtra("battery_percentage");
-        values.add(activityOption);
-
-        activityOption = new ActivityOption();
-        activityOption.setName("PREMIUM");
-        activityOption.setActivity(BooleanSwitchActivity.class);
-        activityOption.setExtra("charging");
         values.add(activityOption);
 
         mAdapter.notifyDataSetChanged();

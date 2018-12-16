@@ -56,6 +56,7 @@ public class MainActivity extends WearableActivity {
     private Integer maxVolume = 11;
     private Integer currentVolume = 6;
     private Boolean premium;
+    private String sound;
     //Preferences - restrictions
     private Integer minimumBattery;
     private Integer maximumBattery;
@@ -197,6 +198,7 @@ public class MainActivity extends WearableActivity {
         whileInAmbient = sharedPreferences.getBoolean(senderPackage+"."+getString(R.string.ambient_preference),true);
         whileInInteractive = sharedPreferences.getBoolean(senderPackage+"."+getString(R.string.interactive_preference),true);
         premium = sharedPreferences.getBoolean(getString(R.string.premium_preference),false);
+        sound = sharedPreferences.getString(getString(R.string.sound_preference),"default");
     }
 
     private void checkRestrictions() {
@@ -329,7 +331,30 @@ public class MainActivity extends WearableActivity {
             mediaPlayer.release();
             mediaPlayer = null;
         }
-        mediaPlayer = MediaPlayer.create(this, R.raw.ticking_sound);
+        if (sound.equals("default") || !premium) {
+            mediaPlayer = MediaPlayer.create(this, R.raw.ticking_sound);
+        } else {
+            switch (sound) {
+                case "1":
+                    mediaPlayer = MediaPlayer.create(this, R.raw.ticking_sound);
+                    break;
+                case "2":
+                    mediaPlayer = MediaPlayer.create(this, R.raw.ticking_sound);
+                    break;
+                case "3":
+                    mediaPlayer = MediaPlayer.create(this, R.raw.ticking_sound);
+                    break;
+                case "4":
+                    mediaPlayer = MediaPlayer.create(this, R.raw.ticking_sound);
+                    break;
+                case "5":
+                    mediaPlayer = MediaPlayer.create(this, R.raw.ticking_sound);
+                    break;
+                default:
+                    mediaPlayer = MediaPlayer.create(this, R.raw.ticking_sound);
+                    break;
+            }
+        }
         if (!isRestricted) {
             mediaPlayer.setLooping(true);
             mediaPlayer.start();
