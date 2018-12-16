@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.os.BatteryManager;
@@ -28,7 +29,6 @@ import com.rokasjankunas.ticktock.activities.ActivityTextViewActivity;
 import com.rokasjankunas.ticktock.activities.custom.AboutActivity;
 import com.rokasjankunas.ticktock.activities.custom.IntegrationsActivity;
 import com.rokasjankunas.ticktock.activities.custom.NotPremiumActivity;
-import com.rokasjankunas.ticktock.activities.custom.PremiumActivity;
 import com.rokasjankunas.ticktock.objects.ActivityOption;
 
 import java.util.ArrayList;
@@ -262,7 +262,7 @@ public class MainActivity extends WearableActivity {
             activityOption = new ActivityOption();
             activityOption.setName("Premium Options");
             activityOption.setExtra("premium_options");
-            activityOption.setActivity(PremiumActivity.class);
+            activityOption.setActivity(ActivityTextViewActivity.class);
             values.add(activityOption);
         } else {
             activityOption = new ActivityOption();
@@ -435,6 +435,9 @@ public class MainActivity extends WearableActivity {
         public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
             ActivityOption activityOption = values.get(position);
             holder.name.setText(activityOption.getName());
+            if (activityOption.getExtra().equals("premium_options") || activityOption.getExtra().equals("premium_buy")) {
+                holder.name.setTextColor(Color.parseColor("#FFA500"));
+            }
         }
 
         @Override

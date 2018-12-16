@@ -14,6 +14,7 @@ import com.anjlab.android.iab.v3.BillingProcessor;
 import com.anjlab.android.iab.v3.Constants;
 import com.anjlab.android.iab.v3.TransactionDetails;
 import com.rokasjankunas.ticktock.R;
+import com.rokasjankunas.ticktock.activities.ActivityTextViewActivity;
 
 public class NotPremiumActivity extends Activity implements BillingProcessor.IBillingHandler {
 
@@ -78,7 +79,7 @@ public class NotPremiumActivity extends Activity implements BillingProcessor.IBi
 
     private void purchased() {
         sharedPreferences.edit().putBoolean(getString(R.string.premium_preference),true).apply();
-        Intent intent = new Intent(this, PremiumActivity.class);
+        Intent intent = new Intent(this, ActivityTextViewActivity.class);
         intent.putExtra("Activity","premium_options");
         this.startActivity(intent);
     }

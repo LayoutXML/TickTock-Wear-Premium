@@ -47,6 +47,7 @@
         android:text="Purchase Premium!"
         android:textAlignment="center"
         android:textAppearance="@android:style/TextAppearance.Material.Large"
+        android:textColor="#FFA500"
         app:layout_constraintBottom_toTopOf="@+id/guideline2"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
