@@ -8,6 +8,7 @@
 
     <uses-permission android:name="android.permission.WAKE_LOCK" />
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+    <uses-permission android:name="com.android.vending.BILLING" />
 
     <permission
         android:name="com.rokasjankunas.ticktock.AMBIENT_INTERACTIVE_MODE_CHANGE"
@@ -42,6 +43,8 @@
         <activity android:name="com.rokasjankunas.ticktock.activities.BooleanSwitchActivity" />
         <activity android:name="com.rokasjankunas.ticktock.activities.custom.IntegrationsActivity" />
         <activity android:name="com.rokasjankunas.ticktock.activities.custom.AboutActivity" />
+        <activity android:name=".activities.custom.PremiumActivity" />
+        <activity android:name=".activities.custom.NotPremiumActivity" />
 
         <receiver
             android:name="com.rokasjankunas.ticktock.BootReceiver"

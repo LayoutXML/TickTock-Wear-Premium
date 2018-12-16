@@ -27,6 +27,8 @@ import android.widget.Toast;
 import com.rokasjankunas.ticktock.activities.ActivityTextViewActivity;
 import com.rokasjankunas.ticktock.activities.custom.AboutActivity;
 import com.rokasjankunas.ticktock.activities.custom.IntegrationsActivity;
+import com.rokasjankunas.ticktock.activities.custom.NotPremiumActivity;
+import com.rokasjankunas.ticktock.activities.custom.PremiumActivity;
 import com.rokasjankunas.ticktock.objects.ActivityOption;
 
 import java.util.ArrayList;
@@ -53,6 +55,7 @@ public class MainActivity extends WearableActivity {
     //Preferences
     private Integer maxVolume = 11;
     private Integer currentVolume = 6;
+    private Boolean premium;
     //Preferences - restrictions
     private Integer minimumBattery;
     private Integer maximumBattery;
@@ -193,6 +196,7 @@ public class MainActivity extends WearableActivity {
         whileNotCharging = sharedPreferences.getBoolean(getString(R.string.notcharging_preference),true);
         whileInAmbient = sharedPreferences.getBoolean(senderPackage+"."+getString(R.string.ambient_preference),true);
         whileInInteractive = sharedPreferences.getBoolean(senderPackage+"."+getString(R.string.interactive_preference),true);
+        premium = sharedPreferences.getBoolean(getString(R.string.premium_preference),false);
     }
 
     private void checkRestrictions() {
@@ -240,6 +244,8 @@ public class MainActivity extends WearableActivity {
     }
 
     private void generateSettingsListValues() {
+        values.clear();
+
         ActivityOption activityOption = new ActivityOption();
         activityOption.setName("Restrictions");
         activityOption.setExtra("restrictions");
@@ -251,6 +257,20 @@ public class MainActivity extends WearableActivity {
         activityOption.setExtra("integrations");
         activityOption.setActivity(IntegrationsActivity.class);
         values.add(activityOption);
+
+        if (premium) {
+            activityOption = new ActivityOption();
+            activityOption.setName("Premium Options");
+            activityOption.setExtra("premium_options");
+            activityOption.setActivity(PremiumActivity.class);
+            values.add(activityOption);
+        } else {
+            activityOption = new ActivityOption();
+            activityOption.setName("Buy Premium");
+            activityOption.setExtra("premium_buy");
+            activityOption.setActivity(NotPremiumActivity.class);
+            values.add(activityOption);
+        }
 
         activityOption = new ActivityOption();
         activityOption.setName("About");
@@ -266,6 +286,7 @@ public class MainActivity extends WearableActivity {
         super.onResume();
         isInAmbient = false;
         checkRestrictions();
+        generateSettingsListValues();
         AudioManager audioManager = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
         int currentVolume = 0;
         if (audioManager != null) {
