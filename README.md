@@ -74,9 +74,3 @@ TickTock Wear does not send any anonymous or personally identifiable information
 TickTock Wear is licensed under "MIT" license. Copyright laws apply.
 
 Copyright © 2018 Rokas Jankūnas (LayoutXML)
-<<<<<<< HEAD
-
-TEST1
-TEST2
-=======
->>>>>>> master
