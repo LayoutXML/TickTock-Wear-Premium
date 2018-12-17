@@ -86,7 +86,7 @@ public class BooleanSwitchActivity extends Activity {
     private void generateHourlyBeepValues(){
         BooleanOption option = new BooleanOption();
         option.setName("Beep hourly");
-        option.setKey(getString(R.string.hour_beep_preference));
+        option.setKey(getString(R.string.hourly_beep_preference));
         option.setDefaultValue(false);
         values.add(option);
 
