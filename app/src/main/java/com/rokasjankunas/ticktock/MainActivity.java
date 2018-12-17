@@ -97,19 +97,25 @@ public class MainActivity extends WearableActivity {
                         checkRestrictions();
                         break;
                     case Intent.ACTION_TIME_CHANGED:
-                        if (hour<calendar.get(Calendar.HOUR) && calendar.get(Calendar.MINUTE)==0) {
+                        checkRestrictions();
+                        if (hour!=calendar.get(Calendar.HOUR_OF_DAY) && calendar.get(Calendar.MINUTE)==0) {
+                            sharedPreferences.edit().putInt(getString(R.string.hour_beep_preference),calendar.get(Calendar.HOUR_OF_DAY)).apply();
                             beep();
                         }
-                        checkRestrictions();
                         break;
                     case Intent.ACTION_TIMEZONE_CHANGED:
-                        if (hour<calendar.get(Calendar.HOUR) && calendar.get(Calendar.MINUTE)==0) {
+                        checkRestrictions();
+                        if (hour!=calendar.get(Calendar.HOUR_OF_DAY) && calendar.get(Calendar.MINUTE)==0) {
+                            sharedPreferences.edit().putInt(getString(R.string.hour_beep_preference),calendar.get(Calendar.HOUR_OF_DAY)).apply();
                             beep();
                         }
-                        checkRestrictions();
                         break;
                     case Intent.ACTION_TIME_TICK:
                         checkRestrictions();
+                        if (hour!=calendar.get(Calendar.HOUR_OF_DAY) && calendar.get(Calendar.MINUTE)==0) {
+                            sharedPreferences.edit().putInt(getString(R.string.hour_beep_preference),calendar.get(Calendar.HOUR_OF_DAY)).apply();
+                            beep();
+                        }
                         break;
 
                 }
@@ -490,8 +496,8 @@ public class MainActivity extends WearableActivity {
     }
 
     private void beep() {
-        if (premium && hourlyBeepEnabled) {
-            ToneGenerator toneGenerator = new ToneGenerator(AudioManager.STREAM_MUSIC, 100);
+        if (premium && hourlyBeepEnabled && isPlaying && !isPaused && !isRestricted) {
+            ToneGenerator toneGenerator = new ToneGenerator(AudioManager.STREAM_MUSIC, 60);
             toneGenerator.startTone(ToneGenerator.TONE_CDMA_PIP, 150);
         }
     }
