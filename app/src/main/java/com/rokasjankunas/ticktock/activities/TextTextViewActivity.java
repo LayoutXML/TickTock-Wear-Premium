@@ -41,28 +41,30 @@ public class TextTextViewActivity extends Activity {
         mAdapter = new PreferencesAdapter();
         mWearableRecyclerView.setItemAnimator(new DefaultItemAnimator());
         mWearableRecyclerView.setAdapter(mAdapter);
+
+        generateValues();
     }
 
 
     private void generateValues(){
         TextOption textOption = new TextOption();
-        textOption.setName("1");
+        textOption.setName("Beep");
         values.add(textOption);
 
         textOption = new TextOption();
-        textOption.setName("2");
+        textOption.setName("Small Watch");
         values.add(textOption);
 
         textOption = new TextOption();
-        textOption.setName("3");
+        textOption.setName("Wall Clock");
         values.add(textOption);
 
         textOption = new TextOption();
-        textOption.setName("4");
+        textOption.setName("Heavy Tock");
         values.add(textOption);
 
         textOption = new TextOption();
-        textOption.setName("5");
+        textOption.setName("Default");
         values.add(textOption);
 
         mAdapter.notifyDataSetChanged();

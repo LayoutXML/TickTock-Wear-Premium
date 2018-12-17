@@ -198,7 +198,7 @@ public class MainActivity extends WearableActivity {
         whileInAmbient = sharedPreferences.getBoolean(senderPackage+"."+getString(R.string.ambient_preference),true);
         whileInInteractive = sharedPreferences.getBoolean(senderPackage+"."+getString(R.string.interactive_preference),true);
         premium = sharedPreferences.getBoolean(getString(R.string.premium_preference),false);
-        sound = sharedPreferences.getString(getString(R.string.sound_preference),"default");
+        sound = sharedPreferences.getString(getString(R.string.sound_preference),"Default");
     }
 
     private void checkRestrictions() {
@@ -331,24 +331,21 @@ public class MainActivity extends WearableActivity {
             mediaPlayer.release();
             mediaPlayer = null;
         }
-        if (sound.equals("default") || !premium) {
+        if (sound.equals("Default") || !premium) {
             mediaPlayer = MediaPlayer.create(this, R.raw.ticking_sound);
         } else {
             switch (sound) {
-                case "1":
-                    mediaPlayer = MediaPlayer.create(this, R.raw.ticking_sound);
+                case "Beep":
+                    mediaPlayer = MediaPlayer.create(this, R.raw.beep);
                     break;
-                case "2":
-                    mediaPlayer = MediaPlayer.create(this, R.raw.ticking_sound);
+                case "Small Watch":
+                    mediaPlayer = MediaPlayer.create(this, R.raw.small_watch);
                     break;
-                case "3":
-                    mediaPlayer = MediaPlayer.create(this, R.raw.ticking_sound);
+                case "Wall Clock":
+                    mediaPlayer = MediaPlayer.create(this, R.raw.wall_clock);
                     break;
-                case "4":
-                    mediaPlayer = MediaPlayer.create(this, R.raw.ticking_sound);
-                    break;
-                case "5":
-                    mediaPlayer = MediaPlayer.create(this, R.raw.ticking_sound);
+                case "Heavy Tock":
+                    mediaPlayer = MediaPlayer.create(this, R.raw.heavy_tock);
                     break;
                 default:
                     mediaPlayer = MediaPlayer.create(this, R.raw.ticking_sound);
