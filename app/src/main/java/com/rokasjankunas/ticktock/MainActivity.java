@@ -68,6 +68,10 @@ public class MainActivity extends WearableActivity {
     private Boolean whileNotCharging;
     private Boolean whileInAmbient;
     private Boolean whileInInteractive;
+    private Integer minMin;
+    private Integer minH;
+    private Integer maxMin;
+    private Integer maxH;
     //Elements
     private Button button;
     private ImageView buttonIcon;
@@ -112,11 +116,16 @@ public class MainActivity extends WearableActivity {
                         if (hour<calendar.get(Calendar.HOUR) && calendar.get(Calendar.MINUTE)==0) {
                             beep();
                         }
+                        checkRestrictions();
                         break;
                     case Intent.ACTION_TIMEZONE_CHANGED:
                         if (hour<calendar.get(Calendar.HOUR) && calendar.get(Calendar.MINUTE)==0) {
                             beep();
                         }
+                        checkRestrictions();
+                        break;
+                    case Intent.ACTION_TIME_TICK:
+                        checkRestrictions();
                         break;
 
                 }
@@ -220,6 +229,10 @@ public class MainActivity extends WearableActivity {
         sound = sharedPreferences.getString(getString(R.string.sound_preference),"Default");
         hour = sharedPreferences.getInt(getString(R.string.hour_beep_preference),-1);
         hourlyBeepEnabled = sharedPreferences.getBoolean(getString(R.string.hourly_beep_preference),false);
+        minMin = sharedPreferences.getInt(getString(R.string.minMin_preference), 0);
+        minH = sharedPreferences.getInt(getString(R.string.minH_preference), 0);
+        maxMin = sharedPreferences.getInt(getString(R.string.maxMin_preference), 0);
+        maxH = sharedPreferences.getInt(getString(R.string.maxH_preference), 0);
     }
 
     private void checkRestrictions() {
@@ -241,6 +254,20 @@ public class MainActivity extends WearableActivity {
             } else {
                 if (!whileInInteractive)
                     isRestricted = true;
+            }
+        }
+        if (!isRestricted) {
+            Calendar calendar = Calendar.getInstance();
+            int currentH = calendar.get(Calendar.HOUR_OF_DAY);
+            int currentMin = calendar.get(Calendar.MINUTE);
+            if (currentH > maxH || currentH < minH) {
+                isRestricted = true;
+            }
+            else if (currentH==minH && currentMin < minMin) {
+                isRestricted = true;
+            }
+            else if (currentH==maxH && currentMin >= maxMin) {
+                isRestricted = true;
             }
         }
 

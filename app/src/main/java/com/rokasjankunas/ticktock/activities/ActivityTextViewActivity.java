@@ -21,6 +21,7 @@ import com.anjlab.android.iab.v3.Constants;
 import com.anjlab.android.iab.v3.TransactionDetails;
 import com.rokasjankunas.ticktock.R;
 import com.rokasjankunas.ticktock.activities.custom.BatteryPercentageActivity;
+import com.rokasjankunas.ticktock.activities.custom.TimeActivity;
 import com.rokasjankunas.ticktock.objects.ActivityOption;
 
 import java.util.ArrayList;
@@ -83,6 +84,12 @@ public class ActivityTextViewActivity extends Activity implements BillingProcess
         activityOption.setName("Charging");
         activityOption.setActivity(BooleanSwitchActivity.class);
         activityOption.setExtra("charging");
+        values.add(activityOption);
+
+        activityOption = new ActivityOption();
+        activityOption.setName("Time");
+        activityOption.setActivity(TimeActivity.class);
+        activityOption.setExtra("time");
         values.add(activityOption);
 
         mAdapter.notifyDataSetChanged();
