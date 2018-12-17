@@ -63,13 +63,12 @@ public class ActivityTextViewActivity extends Activity implements BillingProcess
 
             bp.loadOwnedPurchasesFromGoogle();
 
-            if(bp.isPurchased("premium")) {
+            if(!bp.isPurchased("premium")) {
                 purchased();
+                Toast.makeText(getApplicationContext(),"After changing settings go back to the main screen",Toast.LENGTH_SHORT).show();
             } else {
                 notPurchased();
             }
-
-            Toast.makeText(getApplicationContext(),"After changing settings go back to the main screen",Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -92,8 +91,14 @@ public class ActivityTextViewActivity extends Activity implements BillingProcess
     private void generatePremiumValues(){
         ActivityOption activityOption = new ActivityOption();
         activityOption.setName("Sounds");
-        activityOption.setActivity(BatteryPercentageActivity.class);
+        activityOption.setActivity(TextTextViewActivity.class);
         activityOption.setExtra("battery_percentage");
+        values.add(activityOption);
+
+        activityOption = new ActivityOption();
+        activityOption.setName("Hourly chime");
+        activityOption.setActivity(BooleanSwitchActivity.class);
+        activityOption.setExtra("hourly_beep");
         values.add(activityOption);
 
         mAdapter.notifyDataSetChanged();

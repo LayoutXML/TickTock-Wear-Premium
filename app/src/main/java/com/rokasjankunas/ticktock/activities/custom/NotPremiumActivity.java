@@ -78,10 +78,12 @@ public class NotPremiumActivity extends Activity implements BillingProcessor.IBi
     }
 
     private void purchased() {
-        sharedPreferences.edit().putBoolean(getString(R.string.premium_preference),true).apply();
-        Intent intent = new Intent(this, ActivityTextViewActivity.class);
-        intent.putExtra("Activity","premium_options");
-        this.startActivity(intent);
+        if(bp.isPurchased("premium")) {
+            sharedPreferences.edit().putBoolean(getString(R.string.premium_preference), true).apply();
+            Intent intent = new Intent(this, ActivityTextViewActivity.class);
+            intent.putExtra("Activity", "premium_options");
+            this.startActivity(intent);
+        }
     }
 
     @Override

@@ -8,6 +8,7 @@ import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
+import android.media.ToneGenerator;
 import android.os.BatteryManager;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -32,6 +33,7 @@ import com.rokasjankunas.ticktock.activities.custom.NotPremiumActivity;
 import com.rokasjankunas.ticktock.objects.ActivityOption;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 public class MainActivity extends WearableActivity {
@@ -57,6 +59,8 @@ public class MainActivity extends WearableActivity {
     private Integer currentVolume = 6;
     private Boolean premium;
     private String sound;
+    private Integer hour;
+    private Boolean hourlyBeepEnabled;
     //Preferences - restrictions
     private Integer minimumBattery;
     private Integer maximumBattery;
@@ -79,6 +83,7 @@ public class MainActivity extends WearableActivity {
         @Override
         public void onReceive(Context context, Intent intent) {
             String action = intent.getAction();
+            Calendar calendar = Calendar.getInstance();
             if (action!=null) {
                 switch (action) {
                     case TRANSITION_TO_AMBIENT_MODE:
@@ -103,6 +108,17 @@ public class MainActivity extends WearableActivity {
                         isCharging = pluggedIn == BatteryManager.BATTERY_PLUGGED_AC || pluggedIn == BatteryManager.BATTERY_PLUGGED_USB || pluggedIn == BatteryManager.BATTERY_PLUGGED_WIRELESS;
                         checkRestrictions();
                         break;
+                    case Intent.ACTION_TIME_CHANGED:
+                        if (hour<calendar.get(Calendar.HOUR) && calendar.get(Calendar.MINUTE)==0) {
+                            beep();
+                        }
+                        break;
+                    case Intent.ACTION_TIMEZONE_CHANGED:
+                        if (hour<calendar.get(Calendar.HOUR) && calendar.get(Calendar.MINUTE)==0) {
+                            beep();
+                        }
+                        break;
+
                 }
             }
         }
@@ -185,6 +201,9 @@ public class MainActivity extends WearableActivity {
         intentFilter.addAction(Intent.ACTION_BATTERY_CHANGED);
         intentFilter.addAction(TRANSITION_TO_AMBIENT_MODE);
         intentFilter.addAction(TRANSITION_TO_INTERACTIVE_MODE);
+        intentFilter.addAction(Intent.ACTION_TIME_TICK);
+        intentFilter.addAction(Intent.ACTION_TIMEZONE_CHANGED);
+        intentFilter.addAction(Intent.ACTION_TIME_CHANGED);
         this.registerReceiver(this.batteryBroadcastReceiver,intentFilter);
         pulsate();
     }
@@ -199,6 +218,8 @@ public class MainActivity extends WearableActivity {
         whileInInteractive = sharedPreferences.getBoolean(senderPackage+"."+getString(R.string.interactive_preference),true);
         premium = sharedPreferences.getBoolean(getString(R.string.premium_preference),false);
         sound = sharedPreferences.getString(getString(R.string.sound_preference),"Default");
+        hour = sharedPreferences.getInt(getString(R.string.hour_beep_preference),-1);
+        hourlyBeepEnabled = sharedPreferences.getBoolean(getString(R.string.hourly_beep_preference),false);
     }
 
     private void checkRestrictions() {
@@ -424,6 +445,13 @@ public class MainActivity extends WearableActivity {
         });
     }
 
+    private void beep() {
+        if (premium && hourlyBeepEnabled) {
+            ToneGenerator toneGenerator = new ToneGenerator(AudioManager.STREAM_MUSIC, 100);
+            toneGenerator.startTone(ToneGenerator.TONE_CDMA_PIP, 150);
+        }
+    }
+
     public class SettingsListAdapter extends RecyclerView.Adapter<SettingsListAdapter.MyViewHolder>{
 
         class MyViewHolder extends RecyclerView.ViewHolder {
@@ -457,7 +485,7 @@ public class MainActivity extends WearableActivity {
         public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
             ActivityOption activityOption = values.get(position);
             holder.name.setText(activityOption.getName());
-            if (activityOption.getExtra().equals("premium_options") || activityOption.getExtra().equals("premium_buy")) {
+            if (activityOption.getExtra().equals("premium_buy")) {
                 holder.name.setTextColor(Color.parseColor("#FFA500"));
             }
         }

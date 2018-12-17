@@ -86,6 +86,7 @@ public class TextTextViewActivity extends Activity {
                     public void onClick(View v) {
                         int position = getAdapterPosition(); // gets item position
                         prefs.edit().putString(getString(R.string.sound_preference),values.get(position).getName()).apply();
+                        finish();
                     }
                 });
             }

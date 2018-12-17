@@ -16,6 +16,7 @@ import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.rokasjankunas.ticktock.R;
 import com.rokasjankunas.ticktock.objects.BooleanOption;
 
 import java.util.ArrayList;
@@ -46,6 +47,8 @@ public class BooleanSwitchActivity extends Activity {
             generateChargingValues();
         else if (getIntent().getStringExtra("Activity").equals("ambient&interactive_modes"))
             generateAmbientAndInteractiveModesValues();
+        else if (getIntent().getStringExtra("Activity").equals("hourly_beep"))
+            generateHourlyBeepValues();
     }
 
     private void generateChargingValues(){
@@ -75,6 +78,16 @@ public class BooleanSwitchActivity extends Activity {
         option.setName("Play while in interactive mode");
         option.setKey(getIntent().getStringExtra("Package")+"."+getString(com.rokasjankunas.ticktock.R.string.interactive_preference));
         option.setDefaultValue(true);
+        values.add(option);
+
+        mAdapter.notifyDataSetChanged();
+    }
+
+    private void generateHourlyBeepValues(){
+        BooleanOption option = new BooleanOption();
+        option.setName("Beep hourly");
+        option.setKey(getString(R.string.hour_beep_preference));
+        option.setDefaultValue(false);
         values.add(option);
 
         mAdapter.notifyDataSetChanged();
