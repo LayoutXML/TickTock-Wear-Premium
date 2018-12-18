@@ -21,6 +21,7 @@ import com.anjlab.android.iab.v3.Constants;
 import com.anjlab.android.iab.v3.TransactionDetails;
 import com.rokasjankunas.ticktock.R;
 import com.rokasjankunas.ticktock.activities.custom.BatteryPercentageActivity;
+import com.rokasjankunas.ticktock.activities.custom.HourlyBeepActivity;
 import com.rokasjankunas.ticktock.activities.custom.TimeActivity;
 import com.rokasjankunas.ticktock.objects.ActivityOption;
 
@@ -104,7 +105,7 @@ public class ActivityTextViewActivity extends Activity implements BillingProcess
 
         activityOption = new ActivityOption();
         activityOption.setName("Hourly chime");
-        activityOption.setActivity(BooleanSwitchActivity.class);
+        activityOption.setActivity(HourlyBeepActivity.class);
         activityOption.setExtra("hourly_beep");
         values.add(activityOption);
 

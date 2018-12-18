@@ -18,4 +18,6 @@
     <string name="minH_preference">minHPreference</string>
     <string name="maxMin_preference">maxMinPreference</string>
     <string name="maxH_preference">maxHPreference</string>
+    <string name="beep_volume_preference">beepVolumePreference</string>
+    <string name="beep_duration_preference">beepDurationPreference</string>
 </resources>

@@ -47,6 +47,7 @@
         <activity android:name=".activities.custom.NotPremiumActivity" />
         <activity android:name=".activities.TextTextViewActivity" />
         <activity android:name=".activities.custom.TimeActivity" />
+        <activity android:name=".activities.custom.HourlyBeepActivity" />
 
         <receiver
             android:name="com.rokasjankunas.ticktock.BootReceiver"

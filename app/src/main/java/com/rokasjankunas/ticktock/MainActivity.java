@@ -11,6 +11,8 @@ import android.media.MediaPlayer;
 import android.media.ToneGenerator;
 import android.os.BatteryManager;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
@@ -61,6 +63,8 @@ public class MainActivity extends WearableActivity {
     private String sound;
     private Integer hour;
     private Boolean hourlyBeepEnabled;
+    private Integer beepVolume;
+    private Integer beepDuration;
     //Preferences - restrictions
     private Integer minimumBattery;
     private Integer maximumBattery;
@@ -255,6 +259,8 @@ public class MainActivity extends WearableActivity {
         minH = sharedPreferences.getInt(getString(R.string.minH_preference), 0);
         maxMin = sharedPreferences.getInt(getString(R.string.maxMin_preference), 0);
         maxH = sharedPreferences.getInt(getString(R.string.maxH_preference), 24);
+        beepVolume = sharedPreferences.getInt(getString(R.string.beep_volume_preference),5);
+        beepDuration = sharedPreferences.getInt(getString(R.string.beep_duration_preference),1);
     }
 
     private void checkRestrictions() {
@@ -497,8 +503,23 @@ public class MainActivity extends WearableActivity {
 
     private void beep() {
         if (premium && hourlyBeepEnabled && isPlaying && !isPaused && !isRestricted) {
-            ToneGenerator toneGenerator = new ToneGenerator(AudioManager.STREAM_MUSIC, 60);
-            toneGenerator.startTone(ToneGenerator.TONE_CDMA_PIP, 150);
+            try {
+                final ToneGenerator[] toneGenerator = {new ToneGenerator(AudioManager.STREAM_MUSIC, 50 + beepVolume * 5)};
+                toneGenerator[0].startTone(ToneGenerator.TONE_CDMA_ABBR_INTERCEPT, 50 + beepDuration * 100);
+                Handler handler = new Handler(Looper.getMainLooper());
+                handler.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        if (toneGenerator[0] != null) {
+
+                            toneGenerator[0].release();
+                            toneGenerator[0] = null;
+                        }
+                    }
+
+                }, 100 + beepDuration * 100);
+            } catch (Exception ignored) {
+            }
         }
     }
 
