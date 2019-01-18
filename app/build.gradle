@@ -6,7 +6,7 @@ android {
         applicationId "com.rokasjankunas.ticktock"
         minSdkVersion 23
         targetSdkVersion 28
-        versionCode 64
+        versionCode 65
         versionName "1.0.0"
     }
     buildTypes {
